@@ -776,10 +776,14 @@ namespace Game1
 				if (GameCanvas.isPointerHoldIn(tfUser.x, tfUser.y, tfUser.width, tfUser.height))
 				{
 					focus = 0;
+					tfUser.isFocus = true;
+					tfPass.isFocus = false;
 				}
 				else if (GameCanvas.isPointerHoldIn(tfPass.x, tfPass.y, tfPass.width, tfPass.height))
 				{
 					focus = 1;
+					tfUser.isFocus = false;
+					tfPass.isFocus = true;
 				}
 			}
 			if (Main.isPC && GameCanvas.keyPressed[(!Main.isPC) ? 5 : 25] && right != null)

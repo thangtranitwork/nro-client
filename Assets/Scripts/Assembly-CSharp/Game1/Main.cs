@@ -353,19 +353,27 @@ namespace Game1
 				lastMousePos.y = mousePosition3.y / (float)mGraphics.zoomLevel + (float)mGraphics.addYWhenOpenKeyBoard;
 				GameMidlet.gameCanvas.pointerReleased((int)(mousePosition3.x / (float)mGraphics.zoomLevel), (int)(((float)Screen.height - mousePosition3.y) / (float)mGraphics.zoomLevel) + mGraphics.addYWhenOpenKeyBoard);
 			}
-			if (Input.anyKeyDown && Event.current.type == EventType.KeyDown)
+			if (Event.current.type == EventType.KeyDown)
 			{
-				int num = MyKeyMap.map(Event.current.keyCode);
-				if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+				int num = 0;
+				if (Event.current.character != '\0' && Event.current.character >= ' ' && Event.current.character != 127)
 				{
-					switch (Event.current.keyCode)
+					num = (int)Event.current.character;
+				}
+				else
+				{
+					num = MyKeyMap.map(Event.current.keyCode);
+					if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
 					{
-					case KeyCode.Alpha2:
-						num = 64;
-						break;
-					case KeyCode.Minus:
-						num = 95;
-						break;
+						switch (Event.current.keyCode)
+						{
+						case KeyCode.Alpha2:
+							num = 64;
+							break;
+						case KeyCode.Minus:
+							num = 95;
+							break;
+						}
 					}
 				}
 				if (num != 0)

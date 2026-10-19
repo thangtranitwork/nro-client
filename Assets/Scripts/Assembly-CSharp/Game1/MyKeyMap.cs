@@ -63,6 +63,28 @@ namespace Game1
 			h.Add(KeyCode.Tab, -26);
 			h.Add(KeyCode.KeypadEnter, -5);
 			h.Add(KeyCode.Comma, 44);
+			h.Add(KeyCode.Keypad0, 48);
+			h.Add(KeyCode.Keypad1, 49);
+			h.Add(KeyCode.Keypad2, 50);
+			h.Add(KeyCode.Keypad3, 51);
+			h.Add(KeyCode.Keypad4, 52);
+			h.Add(KeyCode.Keypad5, 53);
+			h.Add(KeyCode.Keypad6, 54);
+			h.Add(KeyCode.Keypad7, 55);
+			h.Add(KeyCode.Keypad8, 56);
+			h.Add(KeyCode.Keypad9, 57);
+			h.Add(KeyCode.KeypadPeriod, 46);
+			h.Add(KeyCode.KeypadPlus, 43);
+			h.Add(KeyCode.KeypadMinus, 45);
+			h.Add(KeyCode.KeypadMultiply, 42);
+			h.Add(KeyCode.KeypadDivide, 47);
+			h.Add(KeyCode.Slash, 47);
+			h.Add(KeyCode.Backslash, 92);
+			h.Add(KeyCode.Colon, 58);
+			h.Add(KeyCode.Semicolon, 59);
+			h.Add(KeyCode.Quote, 39);
+			h.Add(KeyCode.Question, 63);
+			h.Add(KeyCode.Exclaim, 33);
 		}
 
 		public static int map(KeyCode k)
