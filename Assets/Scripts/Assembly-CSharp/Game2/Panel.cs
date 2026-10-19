@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Game2.Assets.src.g;
 using Game2.Mod.XMAP;
-using UnityEditor;
 using UnityEngine;
-using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 namespace Game2
 {
