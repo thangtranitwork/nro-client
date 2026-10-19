@@ -42,3 +42,13 @@ jobs:
           name: NRO_2Tab_Windows_Client
           path: build/StandaloneWindows64
           retention-days: 14
+
+      - name: Upload Unity Editor Log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Unity_Editor_Log
+          path: |
+            /root/.config/unity3d/Editor.log
+            ~/.config/unity3d/Editor.log
+          if-no-files-found: ignore
