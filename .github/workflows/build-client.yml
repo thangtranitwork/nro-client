@@ -1,0 +1,54 @@
+name: Build HUNR Client Windows
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  buildForWindows64:
+    name: Build Standalone Windows 64-bit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-StandaloneWindows64-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-StandaloneWindows64-
+
+      - name: Build Unity Project
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: StandaloneWindows64
+          unityVersion: 2022.3.62f2
+          buildName: HUNR_Client
+
+      - name: Upload Windows Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: HUNR_Windows_Client
+          path: build/StandaloneWindows64
+          retention-days: 14
+
+      - name: Upload Unity Editor Log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Unity_Editor_Log
+          path: |
+            /root/.config/unity3d/Editor.log
+            ~/.config/unity3d/Editor.log
+          if-no-files-found: ignore
