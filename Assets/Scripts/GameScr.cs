@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -2668,12 +2668,16 @@ public class GameScr : mScreen, IChatable
             }
         }
         GameCanvas.debug("F8", 0);
-        if (ChatTextField.gI().isShow && GameCanvas.keyAsciiPress != 0)
+        if (ChatTextField.gI().isShow)
         {
-            ChatTextField.gI().keyPressed(GameCanvas.keyAsciiPress);
-            GameCanvas.keyAsciiPress = 0;
+            if (GameCanvas.keyAsciiPress != 0)
+            {
+                ChatTextField.gI().keyPressed(GameCanvas.keyAsciiPress);
+                GameCanvas.keyAsciiPress = 0;
+            }
+            return;
         }
-        else if (isLockKey)
+        if (isLockKey)
         {
             GameCanvas.clearKeyHold();
             GameCanvas.clearKeyPressed();

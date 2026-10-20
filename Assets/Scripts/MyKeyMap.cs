@@ -82,6 +82,7 @@ public class MyKeyMap
 		h.Add(KeyCode.Quote, 39);
 		h.Add(KeyCode.Question, 63);
 		h.Add(KeyCode.Exclaim, 33);
+		h.Add(KeyCode.Delete, 127);
 	}
 
 	public static int map(KeyCode k)

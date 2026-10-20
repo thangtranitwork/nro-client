@@ -281,12 +281,8 @@ public class TField : IActionListener
     }
     public void clearKeyWhenPutText(int keyCode)
     {
-        if (keyCode == -8 && timeDelayKyCode <= 0)
+        if (keyCode == -8 || keyCode == 8 || keyCode == 204)
         {
-            if (timeDelayKyCode <= 0)
-            {
-                timeDelayKyCode = 1;
-            }
             clear();
         }
     }
@@ -779,65 +775,49 @@ public class TField : IActionListener
         return result;
     }
 
-    [System.Runtime.InteropServices.DllImport("USER32.dll")] public static extern short GetKeyState(int nVirtKey);
-    static bool IsCapsLockOn => (GetKeyState(0x14) & 1) > 0; public static bool IsKeyDown(int nVirtKey)
-    {
-        return (GetKeyState(nVirtKey) & 0x8000) > 0;
-    }
     bool isProcessed;
     static long lastCopy;
     public void isCtrlV()
     {
         if (Main.isPC && this.isFocus)
         {
-            if ((IsKeyDown(0x11) || IsKeyDown(0xA2) || IsKeyDown(0xA3)) && IsKeyDown(0x56))
-            { // 0x11 là mã cho Ctrl, 0x56 là mã cho V, 0xA2 và 0xA3 cho Ctrl trái và phải
+            if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.V))
+            {
                 if (!isProcessed)
                 {
                     string clipboardContent = GUIUtility.systemCopyBuffer;
-                    text += clipboardContent;
-                    caretPos += clipboardContent.Length;
-                    isProcessed = true; // Đánh dấu rằng hành động đã được thực hiện
-                    lastCopy = mSystem.currentTimeMillis();
+                    if (!string.IsNullOrEmpty(clipboardContent))
+                    {
+                        insertText(clipboardContent);
+                        lastCopy = mSystem.currentTimeMillis();
+                    }
+                    isProcessed = true;
                 }
             }
-            else
+            else if (!Input.GetKey(KeyCode.V))
             {
-                isProcessed = false; // Khi phím không còn được giữ, đặt lại biến
+                isProcessed = false;
             }
         }
     }
 
-    void checkCapslock()
-    {
-        if (IsCapsLockOrShiftOn())
-        {
-            int lastPos = this.text.Length - 1;
-            if (lastPos >= 0)
-            {
-                this.text = this.text.Substring(0, lastPos) + char.ToUpper(this.text[lastPos]);
-            }
-        }
-    }
-    bool IsCapsLockOrShiftOn()
-    {
-        return IsCapsLockOn || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-    }
     private void keyPressedAscii(int keyCode)
     {
-
-        if ((inputType == INPUT_TYPE_PASSWORD || inputType == INPUT_ALPHA_NUMBER_ONLY) && (keyCode < 48 || keyCode > 57) && (keyCode < 65 || keyCode > 90) && (keyCode < 97 || keyCode > 122))
+        if (inputType == INPUT_ALPHA_NUMBER_ONLY && (keyCode < 48 || keyCode > 57) && (keyCode < 65 || keyCode > 90) && (keyCode < 97 || keyCode > 122))
+        {
+            return;
+        }
+        if (inputType == INPUT_TYPE_PASSWORD && (keyCode < 32 || keyCode > 126))
         {
             return;
         }
         if (this.text.Length < maxTextLenght)
         {
-
             if (Main.isPC)
             {
                 if (!this.Telex(keyCode))
                 {
-                    if (mSystem.currentTimeMillis() - lastCopy <= 50L && keyCode == 'v')
+                    if (mSystem.currentTimeMillis() - lastCopy <= 50L && (keyCode == 'v' || keyCode == 'V'))
                     {
                         return;
                     }
@@ -850,7 +830,6 @@ public class TField : IActionListener
                     this.caretPos++;
 
                 }
-                checkCapslock();
                 this.setPasswordTest();
                 this.setOffset(0);
             }
@@ -922,9 +901,43 @@ public class TField : IActionListener
     public bool keyPressed(int keyCode)
     {
       
-        if (Main.isPC && keyCode == -8)
+        if (Main.isPC && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
         {
-            clearKeyWhenPutText(-8);
+            if (keyCode == 'v' || keyCode == 'V' || keyCode == 22)
+            {
+                string clipboardContent = GUIUtility.systemCopyBuffer;
+                if (!string.IsNullOrEmpty(clipboardContent))
+                {
+                    insertText(clipboardContent);
+                    lastCopy = mSystem.currentTimeMillis();
+                }
+                return true;
+            }
+            if (keyCode == 'c' || keyCode == 'C' || keyCode == 3)
+            {
+                if (!string.IsNullOrEmpty(text) && inputType != INPUT_TYPE_PASSWORD)
+                {
+                    GUIUtility.systemCopyBuffer = text;
+                }
+                return true;
+            }
+        }
+        if (keyCode == 127 && caretPos < text.Length)
+        {
+            string text1 = text.Substring(0, caretPos);
+            string text2 = text.Substring(caretPos + 1);
+            text = text1 + text2;
+            setOffset(0);
+            setPasswordTest();
+            if (kb != null)
+            {
+                kb.text = text;
+            }
+            return true;
+        }
+        if (keyCode == 8 || keyCode == -8 || keyCode == 204)
+        {
+            clear();
             return true;
         }
         if (keyCode == -3 && caretPos > 0)
@@ -934,11 +947,6 @@ public class TField : IActionListener
         if (keyCode == -4 && caretPos < text.Length)
         {
             caretPos++;
-        }
-        if (keyCode == 8 || keyCode == -8 || keyCode == 204)
-        {
-            clear();
-            return true;
         }
         if (isQwerty && keyCode >= 32)
         {
