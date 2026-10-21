@@ -157,7 +157,7 @@ public class T3 : mResources
 			"Planit:",
 			"Rambut:"
 		};
-		mResources.MENUGENDER = new string[3] { "Earth", "Namekian", "Saiyan" };
+		mResources.MENUGENDER = new string[4] { "Earth", "Namekian", "Saiyan", "Universe 11" };
 		mResources.CHAR_ORDER = new string[10] { "Tantangan", "Praktek", "PK", "Tambah teman", "Undang clan", "Recover", "Informasi", "Chat pribadi", "Undang ke clan", "Blok undangan ke clan" };
 		mResources.mainTab1 = new string[4][]
 		{
@@ -524,11 +524,12 @@ public class T3 : mResources
 		mResources.to_gain_20hp = "untuk mendapatkan 20 HP";
 		mResources.to_gain_20mp = "untuk mendapatkan 20 MP";
 		mResources.to_gain_1pow = "untuk mendapatkan 1 power point";
-		mResources.hairStyleName = new string[3][]
+		mResources.hairStyleName = new string[4][]
 		{
 			new string[3] { "Gohan", "Krillin", "Yamcha" },
 			new string[3] { "Dende", "Piccolo", "Kami" },
-			new string[3] { "Vegeta", "Raditz", "Kakarot" }
+			new string[3] { "Vegeta", "Raditz", "Kakarot" },
+			new string[3] { "Jiren", "Toppo", "Dyspo" }
 		};
 		mResources.hp_ki_full = "HP dan KI penuh, tidak perlu menggunakan bean";
 		mResources.quest_place = "Tempat quest";

@@ -16,22 +16,23 @@ public class CreateCharScr : mScreen, IActionListener
 
 	public static int selected;
 
-	public static int[][] hairID = new int[3][]
+	public static int[][] hairID = new int[4][]
 	{
 		new int[3] { 64, 30, 31 },
 		new int[3] { 9, 29, 32 },
-		new int[3] { 6, 27, 28 }
+		new int[3] { 6, 27, 28 },
+		new int[3] { 2150, 2151, 2152 }
 	};
 
-	public static int[] defaultLeg = new int[3] { 2, 13, 8 };
+	public static int[] defaultLeg = new int[4] { 2, 13, 8, 2154 };
 
-	public static int[] defaultBody = new int[3] { 1, 12, 7 };
+	public static int[] defaultBody = new int[4] { 1, 12, 7, 2153 };
 
 	private int yButton;
 
 	private int disY;
 
-	private int[] bgID = new int[3] { 0, 4, 8 };
+	private int[] bgID = new int[4] { 0, 4, 8, 16 };
 
 	public int yBegin;
 
@@ -53,9 +54,9 @@ public class CreateCharScr : mScreen, IActionListener
 		{
 			if (!GameCanvas.lowGraphic)
 			{
-				loadMapFromResource(new sbyte[3] { 39, 40, 41 });
+				loadMapFromResource(new sbyte[4] { 39, 40, 41, 39 });
 			}
-			loadMapTableFromResource(new sbyte[3] { 39, 40, 41 });
+			loadMapTableFromResource(new sbyte[4] { 39, 40, 41, 39 });
 		}
 		catch (Exception ex)
 		{
@@ -229,7 +230,8 @@ public class CreateCharScr : mScreen, IActionListener
 		GameCanvas.menu.showMenu = false;
 		GameCanvas.endDlg();
 		base.switchToMe();
-		indexGender = Res.random(0, 3);
+		UnityEngine.Debug.LogError("VUTRU11_LOG_TEST: switchToMe called! MENUGENDER count = " + mResources.MENUGENDER.Length);
+		indexGender = Res.random(0, mResources.MENUGENDER.Length);
 		indexHair = Res.random(0, 3);
 		doChangeMap();
 		Char.isLoadingMap = false;
@@ -355,22 +357,24 @@ public class CreateCharScr : mScreen, IActionListener
 		{
 			int num = 110;
 			int num2 = 60;
-			int num3 = 78;
+			int num3 = 70;
 			if (GameCanvas.w > GameCanvas.h)
 			{
 				num = 100;
 				num2 = 40;
 			}
-			if (GameCanvas.isPointerHoldIn(GameCanvas.w / 2 - 3 * num3 / 2, 15, num3 * 3, 80))
+			int totalGenderW = mResources.MENUGENDER.Length * num3;
+			int startGenderX = GameCanvas.w / 2 - totalGenderW / 2;
+			if (GameCanvas.isPointerHoldIn(GameCanvas.w / 2 - 3 * 78 / 2, 15, 78 * 3, 80))
 			{
 				selected = 0;
 				tAddName.isFocus = true;
 			}
-			if (GameCanvas.isPointerHoldIn(GameCanvas.w / 2 - 3 * num3 / 2, num - 30, num3 * 3, num2 + 5))
+			if (GameCanvas.isPointerHoldIn(startGenderX, num - 30, totalGenderW, num2 + 5))
 			{
 				selected = 1;
 				int num4 = indexGender;
-				indexGender = (GameCanvas.px - (GameCanvas.w / 2 - 3 * num3 / 2)) / num3;
+				indexGender = (GameCanvas.px - startGenderX) / num3;
 				if (indexGender < 0)
 				{
 					indexGender = 0;
@@ -384,11 +388,12 @@ public class CreateCharScr : mScreen, IActionListener
 					doChangeMap();
 				}
 			}
-			if (GameCanvas.isPointerHoldIn(GameCanvas.w / 2 - 3 * num3 / 2, num - 30 + num2 + 5, num3 * 3, 65))
+			int startHairX = GameCanvas.w / 2 - 3 * 78 / 2;
+			if (GameCanvas.isPointerHoldIn(startHairX, num - 30 + num2 + 5, 78 * 3, 65))
 			{
 				selected = 2;
 				int num5 = indexHair;
-				indexHair = (GameCanvas.px - (GameCanvas.w / 2 - 3 * num3 / 2)) / num3;
+				indexHair = (GameCanvas.px - startHairX) / 78;
 				if (indexHair < 0)
 				{
 					indexHair = 0;
@@ -409,6 +414,62 @@ public class CreateCharScr : mScreen, IActionListener
 		}
 		GameCanvas.clearKeyHold();
 		GameCanvas.clearKeyPressed();
+	}
+
+	public static void ensureUniverse11Parts()
+	{
+		if (GameScr.parts == null)
+		{
+			GameScr.gI().readPart();
+		}
+		if (GameScr.parts == null)
+		{
+			GameScr.parts = new Part[2160];
+		}
+		if (GameScr.parts.Length <= 2154)
+		{
+			Array.Resize(ref GameScr.parts, 2160);
+		}
+		if (GameScr.parts[2150] == null || GameScr.parts[2150].pi == null)
+		{
+			GameScr.parts[2150] = new Part(0);
+		}
+		for (int i = 0; i < GameScr.parts[2150].pi.Length; i++)
+		{
+			GameScr.parts[2150].pi[i] = new PartImage { id = 32000, dx = 6, dy = 9 };
+		}
+		if (GameScr.parts[2151] == null || GameScr.parts[2151].pi == null)
+		{
+			GameScr.parts[2151] = new Part(0);
+		}
+		for (int i = 0; i < GameScr.parts[2151].pi.Length; i++)
+		{
+			GameScr.parts[2151].pi[i] = new PartImage { id = 32001, dx = 5, dy = 9 };
+		}
+		if (GameScr.parts[2152] == null || GameScr.parts[2152].pi == null)
+		{
+			GameScr.parts[2152] = new Part(0);
+		}
+		for (int i = 0; i < GameScr.parts[2152].pi.Length; i++)
+		{
+			GameScr.parts[2152].pi[i] = new PartImage { id = 32002, dx = 6, dy = 8 };
+		}
+		if (GameScr.parts[2153] == null || GameScr.parts[2153].pi == null)
+		{
+			GameScr.parts[2153] = new Part(1);
+		}
+		for (int i = 0; i < GameScr.parts[2153].pi.Length; i++)
+		{
+			GameScr.parts[2153].pi[i] = new PartImage { id = (short)(32010 + (i % 17)), dx = 0, dy = 0 };
+		}
+		if (GameScr.parts[2154] == null || GameScr.parts[2154].pi == null)
+		{
+			GameScr.parts[2154] = new Part(2);
+		}
+		for (int j = 0; j < GameScr.parts[2154].pi.Length; j++)
+		{
+			GameScr.parts[2154].pi[j] = new PartImage { id = (short)(32030 + (j % 14)), dx = 0, dy = 0 };
+		}
 	}
 
 	public override void paint(mGraphics g)
@@ -439,13 +500,23 @@ public class CreateCharScr : mScreen, IActionListener
 		int num2 = hairID[indexGender][indexHair];
 		int num3 = defaultLeg[indexGender];
 		int num4 = defaultBody[indexGender];
+		ensureUniverse11Parts();
 		g.drawImage(TileMap.bong, cx, cy + dy, 3);
-		Part part = GameScr.parts[num2];
-		Part part2 = GameScr.parts[num3];
-		Part part3 = GameScr.parts[num4];
-		SmallImage.drawSmallImage(g, part.pi[Char.CharInfo[cf][0][0]].id, cx + Char.CharInfo[cf][0][1] + part.pi[Char.CharInfo[cf][0][0]].dx, cy - Char.CharInfo[cf][0][2] + part.pi[Char.CharInfo[cf][0][0]].dy + dy, 0, 0);
-		SmallImage.drawSmallImage(g, part2.pi[Char.CharInfo[cf][1][0]].id, cx + Char.CharInfo[cf][1][1] + part2.pi[Char.CharInfo[cf][1][0]].dx, cy - Char.CharInfo[cf][1][2] + part2.pi[Char.CharInfo[cf][1][0]].dy + dy, 0, 0);
-		SmallImage.drawSmallImage(g, part3.pi[Char.CharInfo[cf][2][0]].id, cx + Char.CharInfo[cf][2][1] + part3.pi[Char.CharInfo[cf][2][0]].dx, cy - Char.CharInfo[cf][2][2] + part3.pi[Char.CharInfo[cf][2][0]].dy + dy, 0, 0);
+		Part part = (GameScr.parts != null && num2 >= 0 && num2 < GameScr.parts.Length) ? GameScr.parts[num2] : null;
+		Part part2 = (GameScr.parts != null && num3 >= 0 && num3 < GameScr.parts.Length) ? GameScr.parts[num3] : null;
+		Part part3 = (GameScr.parts != null && num4 >= 0 && num4 < GameScr.parts.Length) ? GameScr.parts[num4] : null;
+		if (part != null && part.pi != null && Char.CharInfo[cf][0][0] < part.pi.Length)
+		{
+			SmallImage.drawSmallImage(g, part.pi[Char.CharInfo[cf][0][0]].id, cx + Char.CharInfo[cf][0][1] + part.pi[Char.CharInfo[cf][0][0]].dx, cy - Char.CharInfo[cf][0][2] + part.pi[Char.CharInfo[cf][0][0]].dy + dy, 0, 0);
+		}
+		if (part2 != null && part2.pi != null && Char.CharInfo[cf][1][0] < part2.pi.Length)
+		{
+			SmallImage.drawSmallImage(g, part2.pi[Char.CharInfo[cf][1][0]].id, cx + Char.CharInfo[cf][1][1] + part2.pi[Char.CharInfo[cf][1][0]].dx, cy - Char.CharInfo[cf][1][2] + part2.pi[Char.CharInfo[cf][1][0]].dy + dy, 0, 0);
+		}
+		if (part3 != null && part3.pi != null && Char.CharInfo[cf][2][0] < part3.pi.Length)
+		{
+			SmallImage.drawSmallImage(g, part3.pi[Char.CharInfo[cf][2][0]].id, cx + Char.CharInfo[cf][2][1] + part3.pi[Char.CharInfo[cf][2][0]].dx, cy - Char.CharInfo[cf][2][2] + part3.pi[Char.CharInfo[cf][2][0]].dy + dy, 0, 0);
+		}
 		if (!GameCanvas.lowGraphic)
 		{
 			for (int j = 0; j < MapTemplate.vCurrItem[indexGender].size(); j++)
@@ -461,9 +532,18 @@ public class CreateCharScr : mScreen, IActionListener
 		if (GameCanvas.w < 200)
 		{
 			GameCanvas.paintz.paintFrame(GameScr.popupX, GameScr.popupY, GameScr.popupW, GameScr.popupH, g);
-			SmallImage.drawSmallImage(g, part.pi[Char.CharInfo[0][0][0]].id, GameCanvas.w / 2 + Char.CharInfo[0][0][1] + part.pi[Char.CharInfo[0][0][0]].dx, GameScr.popupY + 30 + 3 * num - Char.CharInfo[0][0][2] + part.pi[Char.CharInfo[0][0][0]].dy + dy, 0, 0);
-			SmallImage.drawSmallImage(g, part2.pi[Char.CharInfo[0][1][0]].id, GameCanvas.w / 2 + Char.CharInfo[0][1][1] + part2.pi[Char.CharInfo[0][1][0]].dx, GameScr.popupY + 30 + 3 * num - Char.CharInfo[0][1][2] + part2.pi[Char.CharInfo[0][1][0]].dy + dy, 0, 0);
-			SmallImage.drawSmallImage(g, part3.pi[Char.CharInfo[0][2][0]].id, GameCanvas.w / 2 + Char.CharInfo[0][2][1] + part3.pi[Char.CharInfo[0][2][0]].dx, GameScr.popupY + 30 + 3 * num - Char.CharInfo[0][2][2] + part3.pi[Char.CharInfo[0][2][0]].dy + dy, 0, 0);
+			if (part != null && part.pi != null && Char.CharInfo[0][0][0] < part.pi.Length)
+			{
+				SmallImage.drawSmallImage(g, part.pi[Char.CharInfo[0][0][0]].id, GameCanvas.w / 2 + Char.CharInfo[0][0][1] + part.pi[Char.CharInfo[0][0][0]].dx, GameScr.popupY + 30 + 3 * num - Char.CharInfo[0][0][2] + part.pi[Char.CharInfo[0][0][0]].dy + dy, 0, 0);
+			}
+			if (part2 != null && part2.pi != null && Char.CharInfo[0][1][0] < part2.pi.Length)
+			{
+				SmallImage.drawSmallImage(g, part2.pi[Char.CharInfo[0][1][0]].id, GameCanvas.w / 2 + Char.CharInfo[0][1][1] + part2.pi[Char.CharInfo[0][1][0]].dx, GameScr.popupY + 30 + 3 * num - Char.CharInfo[0][1][2] + part2.pi[Char.CharInfo[0][1][0]].dy + dy, 0, 0);
+			}
+			if (part3 != null && part3.pi != null && Char.CharInfo[0][2][0] < part3.pi.Length)
+			{
+				SmallImage.drawSmallImage(g, part3.pi[Char.CharInfo[0][2][0]].id, GameCanvas.w / 2 + Char.CharInfo[0][2][1] + part3.pi[Char.CharInfo[0][2][0]].dx, GameScr.popupY + 30 + 3 * num - Char.CharInfo[0][2][2] + part3.pi[Char.CharInfo[0][2][0]].dy + dy, 0, 0);
+			}
 			for (int k = 0; k < mResources.MENUNEWCHAR.Length; k++)
 			{
 				if (selected == k)
@@ -487,7 +567,7 @@ public class CreateCharScr : mScreen, IActionListener
 					disY = 60;
 					if (GameCanvas.w > GameCanvas.h)
 					{
-						yButton = GameScr.popupY + 30 + 3 * num + part3.pi[Char.CharInfo[0][2][0]].dy + dy - 15;
+						yButton = GameScr.popupY + 30 + 3 * num + ((part3 != null && part3.pi != null && Char.CharInfo[0][2][0] < part3.pi.Length) ? part3.pi[Char.CharInfo[0][2][0]].dy : 0) + dy - 15;
 						disY = 35;
 					}
 				}
@@ -514,22 +594,25 @@ public class CreateCharScr : mScreen, IActionListener
 				}
 				tAddName.y = yBegin;
 			}
-			for (int l = 0; l < 3; l++)
+			int numGenderBtn = mResources.MENUGENDER.Length;
+			int genderBtnW = 70;
+			int startBtnX = GameCanvas.w / 2 - (numGenderBtn * genderBtnW) / 2 + genderBtnW / 2;
+			for (int l = 0; l < numGenderBtn; l++)
 			{
-				int num5 = 78;
+				int btnX = startBtnX + l * genderBtnW;
 				if (l != indexGender)
 				{
-					g.drawImage(GameScr.imgLbtn, GameCanvas.w / 2 - num5 + l * num5, yButton, 3);
+					g.drawImage(GameScr.imgLbtn, btnX, yButton, 3);
 				}
 				else
 				{
 					if (selected == 1)
 					{
-						g.drawRegion(GameScr.arrow, 0, 0, 13, 16, 4, GameCanvas.w / 2 - num5 + l * num5, yButton - 20 + ((GameCanvas.gameTick % 7 > 3) ? 1 : 0), StaticObj.VCENTER_HCENTER);
+						g.drawRegion(GameScr.arrow, 0, 0, 13, 16, 4, btnX, yButton - 20 + ((GameCanvas.gameTick % 7 > 3) ? 1 : 0), StaticObj.VCENTER_HCENTER);
 					}
-					g.drawImage(GameScr.imgLbtnFocus, GameCanvas.w / 2 - num5 + l * num5, yButton, 3);
+					g.drawImage(GameScr.imgLbtnFocus, btnX, yButton, 3);
 				}
-				mFont.tahoma_7b_dark.drawString(g, mResources.MENUGENDER[l], GameCanvas.w / 2 - num5 + l * num5, yButton - 5, mFont.CENTER);
+				mFont.tahoma_7b_dark.drawString(g, mResources.MENUGENDER[l], btnX, yButton - 5, mFont.CENTER);
 			}
 			for (int m = 0; m < 3; m++)
 			{
@@ -551,7 +634,7 @@ public class CreateCharScr : mScreen, IActionListener
 			tAddName.paint(g);
 		}
 		g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-		mFont.tahoma_7b_white.drawString(g, mResources.server + " " + LoginScr.serverName, 5, 5, 0, mFont.tahoma_7b_dark);
+		mFont.tahoma_7b_white.drawString(g, "[Vũ Trụ 11] " + mResources.server + " " + LoginScr.serverName, 5, 5, 0, mFont.tahoma_7b_dark);
 		if (!TouchScreenKeyboard.visible)
 		{
 			base.paint(g);

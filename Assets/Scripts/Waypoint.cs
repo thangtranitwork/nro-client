@@ -29,7 +29,7 @@ public class Waypoint : IActionListener
 		this.name = name;
 		this.isEnter = isEnter;
 		this.isOffline = isOffline;
-		if (((TileMap.mapID == 21 || TileMap.mapID == 22 || TileMap.mapID == 23) && this.minX >= 0 && this.minX <= 24) || (((TileMap.mapID == 0 && Char.myCharz().cgender != 0) || (TileMap.mapID == 7 && Char.myCharz().cgender != 1) || (TileMap.mapID == 14 && Char.myCharz().cgender != 2)) && isOffline))
+		if (((TileMap.mapID == 21 || TileMap.mapID == 22 || TileMap.mapID == 23 || TileMap.mapID == 185) && this.minX >= 0 && this.minX <= 24) || (((TileMap.mapID == 0 && Char.myCharz().cgender != 0 && Char.myCharz().cgender != 3) || (TileMap.mapID == 7 && Char.myCharz().cgender != 1) || (TileMap.mapID == 14 && Char.myCharz().cgender != 2)) && isOffline))
 		{
 			return;
 		}

@@ -2642,12 +2642,30 @@ public class Controller : IMessageHandler
                             {
                                 Res.outz("SIZE CHECK= " + array18.Length);
                             }
-                            SmallImage.imgNew[num176].img = createImage(array18);
+                            SmallImage.checkImgNewSize(num176);
+                            Image recImg = createImage(array18);
+                            if (SmallImage.imgNew[num176] == null)
+                            {
+                                SmallImage.imgNew[num176] = new Small(recImg, num176);
+                            }
+                            else
+                            {
+                                SmallImage.imgNew[num176].img = recImg;
+                            }
                         }
                         catch (Exception)
                         {
                             array18 = null;
-                            SmallImage.imgNew[num176].img = Image.createRGBImage(new int[1], 1, 1, bl: true);
+                            SmallImage.checkImgNewSize(num176);
+                            Image emptyImg = Image.createRGBImage(new int[1], 1, 1, bl: true);
+                            if (SmallImage.imgNew[num176] == null)
+                            {
+                                SmallImage.imgNew[num176] = new Small(emptyImg, num176);
+                            }
+                            else
+                            {
+                                SmallImage.imgNew[num176].img = emptyImg;
+                            }
                         }
                         if (array18 != null)
                         {

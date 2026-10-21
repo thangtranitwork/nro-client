@@ -2,7 +2,7 @@ public class InfoMe
 {
 	public static InfoMe me;
 
-	public int[][] charId = new int[3][];
+	public int[][] charId = new int[4][];
 
 	public Info info = new Info();
 

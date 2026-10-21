@@ -153,10 +153,10 @@ public class T1 : mResources
             "Dân tộc: ",
             "Tóc: "
         };
-        mResources.MENUGENDER = new string[3] { "Trái đất", "Namếc", "Xayda" };
+        mResources.MENUGENDER = new string[4] { "Trái đất", "Namếc", "Xayda", "Vũ Trụ 11" };
         if (mSystem.clientType == 7)
         {
-            mResources.MENUGENDER = new string[3] { "Rồng đất", "Rồng xanh", "Rồng đỏ" };
+            mResources.MENUGENDER = new string[4] { "Rồng đất", "Rồng xanh", "Rồng đỏ", "Vũ Trụ 11" };
         }
         mResources.CHAR_ORDER = new string[10] { "Thách đấu", "Luyện tập", "Cừu sát", "Kết bạn", "Mời vào bang", "Phục hồi", "Xem thông tin", "Chat riêng", "Bái sư", "Chặn xin vào tộc" };
         mResources.mainTab1 = new string[5][]
@@ -484,19 +484,21 @@ public class T1 : mResources
         mResources.to_gain_20hp = "để tăng 20 HP gốc";
         mResources.to_gain_20mp = "để tăng 20 MP gốc";
         mResources.to_gain_1pow = "để tăng 1 sức mạnh gốc";
-        mResources.hairStyleName = new string[3][]
+        mResources.hairStyleName = new string[4][]
         {
             new string[3] { "Gohan", "Krillin", "Yamcha" },
             new string[3] { "Ốc tiêu", "Pocollo", "Kami" },
-            new string[3] { "Cađic", "Rađic", "Kakalot" }
+            new string[3] { "Cađic", "Rađic", "Kakalot" },
+            new string[3] { "Jiren", "Toppo", "Dyspo" }
         };
         if (mSystem.clientType == 7)
         {
-            mResources.hairStyleName = new string[3][]
+            mResources.hairStyleName = new string[4][]
             {
                 new string[3] { "Hango", "Linkhi", "Chayam" },
                 new string[3] { "Deden", "Cololo", "Mika" },
-                new string[3] { "Tageve", "Ditra", "Rotkaka" }
+                new string[3] { "Tageve", "Ditra", "Rotkaka" },
+                new string[3] { "Jiren", "Toppo", "Dyspo" }
             };
         }
         mResources.hp_ki_full = "HP và KI đã đầy, không cần dùng đậu thần";

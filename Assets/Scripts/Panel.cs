@@ -1,4 +1,4 @@
-﻿
+
 using Assets.Scripts.Assembly_CSharp.HSNR;
 using Assets.Scripts.HSNR;
 using Assets.Scripts.VoiceChat;
@@ -321,11 +321,11 @@ public class Panel : IActionListener, IChatable
         173, 207, 194, 29
     };
 
-    public static int[][] mapId = new int[3][] { mapIdTraidat, mapIdNamek, mapIdSaya };
+    public static int[][] mapId = new int[4][] { mapIdTraidat, mapIdNamek, mapIdSaya, mapIdTraidat };
 
-    public static int[][] mapX = new int[3][] { mapXTraidat, mapXNamek, mapXSaya };
+    public static int[][] mapX = new int[4][] { mapXTraidat, mapXNamek, mapXSaya, mapXTraidat };
 
-    public static int[][] mapY = new int[3][] { mapYTraidat, mapYNamek, mapYSaya };
+    public static int[][] mapY = new int[4][] { mapYTraidat, mapYNamek, mapYSaya, mapYTraidat };
 
     public Item currItem;
 
@@ -1701,7 +1701,9 @@ public class Panel : IActionListener, IChatable
             cp = new ChatPopup();
             string empty = string.Empty;
             string text = string.Empty;
-            if (item.template.gender != Char.myCharz().cgender)
+            bool isGenderMismatch = (item.template.gender <= 2 && item.template.gender != Char.myCharz().cgender) 
+                                 || (item.template.gender == 4 && Char.myCharz().cgender != 3);
+            if (isGenderMismatch)
             {
                 if (item.template.gender == 0)
                 {
@@ -1714,6 +1716,10 @@ public class Panel : IActionListener, IChatable
                 else if (item.template.gender == 2)
                 {
                     text = text + "\n|7|1|" + mResources.from_sayda;
+                }
+                else if (item.template.gender == 4)
+                {
+                    text = text + "\n|7|1|Dành cho Vũ Trụ 11";
                 }
             }
             string text2 = string.Empty;
@@ -4990,44 +4996,43 @@ public class Panel : IActionListener, IChatable
                 SmallImage.drawSmallImage(g, 567, num5 + 4, num6 + 4, 0, 0);
                 string st = mResources.HP + " " + mResources.root + ": " + NinjaUtil.getMoneys(Char.myCharz().cHPGoc);
                 mFont.tahoma_7b_blue.drawString(g, st, num2 + 5, num3 + 3, 0);
-                // [DISABLED] mFont.tahoma_7_green2.drawString(g, NinjaUtil.getMoneys(Char.myCharz().cHPGoc + 1000) + " " + mResources.potential + ": " + mResources.increase + " " + Char.myCharz().hpFrom1000TiemNang, num2 + 5, num3 + 15, 0);
+                mFont.tahoma_7_green2.drawString(g, NinjaUtil.getMoneys(Char.myCharz().cHPGoc + 1000) + " " + mResources.potential + ": " + mResources.increase + " " + Char.myCharz().hpFrom1000TiemNang, num2 + 5, num3 + 15, 0);
             }
             if (i == 1)
             {
                 SmallImage.drawSmallImage(g, 569, num5 + 4, num6 + 4, 0, 0);
                 string st2 = mResources.KI + " " + mResources.root + ": " + NinjaUtil.getMoneys(Char.myCharz().cMPGoc);
                 mFont.tahoma_7b_blue.drawString(g, st2, num2 + 5, num3 + 3, 0);
-                // [DISABLED] mFont.tahoma_7_green2.drawString(g, NinjaUtil.getMoneys(Char.myCharz().cMPGoc + 1000) + " " + mResources.potential + ": " + mResources.increase + " " + Char.myCharz().mpFrom1000TiemNang, num2 + 5, num3 + 15, 0);
+                mFont.tahoma_7_green2.drawString(g, NinjaUtil.getMoneys(Char.myCharz().cMPGoc + 1000) + " " + mResources.potential + ": " + mResources.increase + " " + Char.myCharz().mpFrom1000TiemNang, num2 + 5, num3 + 15, 0);
             }
             if (i == 2)
             {
                 SmallImage.drawSmallImage(g, 568, num5 + 4, num6 + 4, 0, 0);
                 string st3 = mResources.hit_point + " " + mResources.root + ": " + NinjaUtil.getMoneys(Char.myCharz().cDamGoc);
                 mFont.tahoma_7b_blue.drawString(g, st3, num2 + 5, num3 + 3, 0);
-                // [DISABLED] mFont.tahoma_7_green2.drawString(g, NinjaUtil.getMoneys(Char.myCharz().cDamGoc * 100) + " " + mResources.potential + ": " + mResources.increase + " " + Char.myCharz().damFrom1000TiemNang, num2 + 5, num3 + 15, 0);
+                mFont.tahoma_7_green2.drawString(g, NinjaUtil.getMoneys(Char.myCharz().cDamGoc * 100) + " " + mResources.potential + ": " + mResources.increase + " " + Char.myCharz().damFrom1000TiemNang, num2 + 5, num3 + 15, 0);
             }
             if (i == 3)
             {
                 SmallImage.drawSmallImage(g, 721, num5 + 4, num6 + 4, 0, 0);
                 string st4 = mResources.armor + " " + mResources.root + ": " + NinjaUtil.getMoneys(Char.myCharz().cDefGoc);
                 mFont.tahoma_7b_blue.drawString(g, st4, num2 + 5, num3 + 3, 0);
-                // [DISABLED] mFont.tahoma_7_green2.drawString(g, NinjaUtil.getMoneys(500000 + Char.myCharz().cDefGoc * 100000) + " " + mResources.potential + ": " + mResources.increase + " " + Char.myCharz().defFrom1000TiemNang, num2 + 5, num3 + 15, 0);
+                mFont.tahoma_7_green2.drawString(g, NinjaUtil.getMoneys(500000 + Char.myCharz().cDefGoc * 100000) + " " + mResources.potential + ": " + mResources.increase + " " + Char.myCharz().defFrom1000TiemNang, num2 + 5, num3 + 15, 0);
             }
             if (i == 4)
             {
                 SmallImage.drawSmallImage(g, 719, num5 + 4, num6 + 4, 0, 0);
                 string st5 = mResources.critical + " " + mResources.root + ": " + Char.myCharz().cCriticalGoc + "%";
-                // [DISABLED] Potential cost calculation
-                // long num9 = 50000000L;
-                // int num10 = Char.myCharz().cCriticalGoc;
-                // if (num10 > t_tiemnang.Length - 1)
-                // {
-                //     num10 = t_tiemnang.Length - 1;
-                // }
-                // num9 = t_tiemnang[num10];
+                long num9 = 50000000L;
+                int num10 = Char.myCharz().cCriticalGoc;
+                if (num10 > t_tiemnang.Length - 1)
+                {
+                    num10 = t_tiemnang.Length - 1;
+                }
+                num9 = t_tiemnang[num10];
                 mFont.tahoma_7b_blue.drawString(g, st5, num2 + 5, num3 + 3, 0);
-                // long number = num9;
-                // mFont.tahoma_7_green2.drawString(g, Res.formatNumber2(number) + " " + mResources.potential + ": " + mResources.increase + " " + Char.myCharz().criticalFrom1000Tiemnang, num2 + 5, num3 + 15, 0);
+                long number = num9;
+                mFont.tahoma_7_green2.drawString(g, Res.formatNumber2(number) + " " + mResources.potential + ": " + mResources.increase + " " + Char.myCharz().criticalFrom1000Tiemnang, num2 + 5, num3 + 15, 0);
             }
             if (i == 5)
             {
@@ -6696,13 +6701,9 @@ public class Panel : IActionListener, IChatable
     private void paintSkillInfo(mGraphics g)
     {
         mFont.tahoma_7_white.drawString(g, "Top " + Char.myCharz().rank, X + 45 + (W - 50) / 2, 2, mFont.CENTER);
-        // [NEW] Instruction text for vitality drain system
-        mFont.tahoma_7_yellow.drawString(g, "Hãy đánh quái để nâng cao", X + 45 + (W - 50) / 2, 14, mFont.CENTER);
-        mFont.tahoma_7_yellow.drawString(g, "chỉ số của bản thân.", X + 45 + (W - 50) / 2, 26, mFont.CENTER);
-        // [DISABLED] Hide potential point display
-        // mFont.tahoma_7_yellow.drawString(g, mResources.potential_point, X + 45 + (W - 50) / 2, 14, mFont.CENTER);
-        // mFont.tahoma_7_white.drawString(g, string.Empty + NinjaUtil.getMoneys(Char.myCharz().cTiemNang), X + ((GameCanvas.gameTick % 20 > 10) ? (GameCanvas.gameTick % 4 / 2) : 0) + 45 + (W - 50) / 2, 26, mFont.CENTER);
-        // mFont.tahoma_7_yellow.drawString(g, mResources.active_point + ": " + NinjaUtil.getMoneys(Char.myCharz().cNangdong), X + ((GameCanvas.gameTick % 20 > 10) ? (GameCanvas.gameTick % 4 / 2) : 0) + 45 + (W - 50) / 2, 38, mFont.CENTER);
+        mFont.tahoma_7_yellow.drawString(g, mResources.potential_point, X + 45 + (W - 50) / 2, 14, mFont.CENTER);
+        mFont.tahoma_7_white.drawString(g, string.Empty + NinjaUtil.getMoneys(Char.myCharz().cTiemNang), X + ((GameCanvas.gameTick % 20 > 10) ? (GameCanvas.gameTick % 4 / 2) : 0) + 45 + (W - 50) / 2, 26, mFont.CENTER);
+        mFont.tahoma_7_yellow.drawString(g, mResources.active_point + ": " + NinjaUtil.getMoneys(Char.myCharz().cNangdong), X + ((GameCanvas.gameTick % 20 > 10) ? (GameCanvas.gameTick % 4 / 2) : 0) + 45 + (W - 50) / 2, 38, mFont.CENTER);
     }
 
     private void paintItemBodyBagInfo(mGraphics g)
@@ -9431,18 +9432,7 @@ public class Panel : IActionListener, IChatable
             GameCanvas.startOKDlg(mResources.can_not_do_when_die);
             return;
         }
-        if (selected >= 0 && selected <= 4)
-        {
-            // [DISABLED] Stat upgrade feature removed (HP, MP, Dam, Def, Crit)
-            return;
-        }
-        if (selected == 5)
-        {
-            // Nội tại - still active
-            Service.gI().speacialSkill(0);
-            return;
-        }
-        if (false) // [DISABLED] Original stat upgrade UI code
+        if (selected <= 5)
         {
             long cTiemNang = Char.myCharz().cTiemNang;
             long cHPGoc = Char.myCharz().cHPGoc;
@@ -10294,37 +10284,36 @@ public class Panel : IActionListener, IChatable
             Member member4 = (Member)p;
             Service.gI().clanRemote(member4.ID, -1);
         }
-        // [DISABLED] Stat upgrade feature removed
-        // if (idAction == 9000)
-        // {
-        //     Service.gI().upPotential(selected, 1);
-        //     GameCanvas.endDlg();
-        //     InfoDlg.showWait();
-        // }
-        // if (idAction == 9006)
-        // {
-        //     Service.gI().upPotential(selected, 10);
-        //     GameCanvas.endDlg();
-        //     InfoDlg.showWait();
-        // }
-        // if (idAction == 9007)
-        // {
-        //     Service.gI().upPotential(selected, 100);
-        //     GameCanvas.endDlg();
-        //     InfoDlg.showWait();
-        // }
-        // if (idAction == 9008)
-        // {
-        //     Service.gI().upPotential(selected, 1000);
-        //     GameCanvas.endDlg();
-        //     InfoDlg.showWait();
-        // }
-        // if (idAction == 9009)
-        // {
-        //     Service.gI().upPotential(selected, 10000);
-        //     GameCanvas.endDlg();
-        //     InfoDlg.showWait();
-        // }
+        if (idAction == 9000)
+        {
+            Service.gI().upPotential(selected, 1);
+            GameCanvas.endDlg();
+            InfoDlg.showWait();
+        }
+        if (idAction == 9006)
+        {
+            Service.gI().upPotential(selected, 10);
+            GameCanvas.endDlg();
+            InfoDlg.showWait();
+        }
+        if (idAction == 9007)
+        {
+            Service.gI().upPotential(selected, 100);
+            GameCanvas.endDlg();
+            InfoDlg.showWait();
+        }
+        if (idAction == 9008)
+        {
+            Service.gI().upPotential(selected, 1000);
+            GameCanvas.endDlg();
+            InfoDlg.showWait();
+        }
+        if (idAction == 9009)
+        {
+            Service.gI().upPotential(selected, 10000);
+            GameCanvas.endDlg();
+            InfoDlg.showWait();
+        }
         if (idAction == 9002)
         {
             Skill skill = (Skill)p;

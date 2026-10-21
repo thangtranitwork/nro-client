@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using Assets.src.e;
 using UnityEngine;
@@ -121,8 +121,93 @@ public class SmallImage
         return stringBuilder.ToString();
     }
 
+    public static void checkImgNewSize(int id)
+    {
+        if (id < 0)
+        {
+            return;
+        }
+        if (imgNew == null)
+        {
+            imgNew = new Small[Math.Max(id + 1000, 35000)];
+        }
+        else if (id >= imgNew.Length)
+        {
+            Array.Resize(ref imgNew, Math.Max(id + 1000, imgNew.Length * 2));
+        }
+    }
+
     public static void createImage(int id)
     {
+        checkImgNewSize(id);
+
+        string appDir = "";
+        try
+        {
+            if (!string.IsNullOrEmpty(Application.dataPath))
+            {
+                appDir = System.IO.Path.GetFullPath(Application.dataPath + "/..");
+            }
+        }
+        catch { }
+
+        string baseDir = "";
+        try
+        {
+            baseDir = AppDomain.CurrentDomain.BaseDirectory;
+        }
+        catch { }
+
+        string[] candidateDirs = new string[]
+        {
+            appDir,
+            baseDir,
+            ".",
+            "/home/thang/coding/HUNR_Windows_Client",
+            "/home/thang/coding/HUNR_Client",
+            "Z:/home/thang/coding/HUNR_Windows_Client",
+            "Z:/home/thang/coding/HUNR_Client"
+        };
+
+        for (int d = 0; d < candidateDirs.Length; d++)
+        {
+            string dir = candidateDirs[d];
+            if (string.IsNullOrEmpty(dir)) continue;
+
+            string[] testFiles = new string[]
+            {
+                System.IO.Path.Combine(dir, "resources/image/" + mGraphics.zoomLevel + "/small/Small" + id + ".png"),
+                System.IO.Path.Combine(dir, "resources/image/4/small/Small" + id + ".png"),
+                System.IO.Path.Combine(dir, "resources/image/2/small/Small" + id + ".png"),
+                System.IO.Path.Combine(dir, "SmallImage/Small" + id + ".png"),
+                System.IO.Path.Combine(dir, "Assets/Resources/res/x" + mGraphics.zoomLevel + "/SmallImage/Small" + id + ".png")
+            };
+
+            for (int f = 0; f < testFiles.Length; f++)
+            {
+                string path = testFiles[f];
+                try
+                {
+                    if (System.IO.File.Exists(path))
+                    {
+                        byte[] fileData = System.IO.File.ReadAllBytes(path);
+                        if (fileData != null && fileData.Length > 0)
+                        {
+                            Image diskImg = Image.createImage(fileData);
+                            if (diskImg != null && diskImg.texture != null)
+                            {
+                                imgNew[id] = new Small(diskImg, id);
+                                return;
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+
         Res.outz("is request =" + id + " zoom=" + mGraphics.zoomLevel);
         Image image2 = GameCanvas.loadImage("/SmallImage/Small" + id + ".png");
         if (image2 != null)
@@ -145,7 +230,6 @@ public class SmallImage
             if (newSmallVersion != null && array.Length % 127 != newSmallVersion[id])
             {
                 flag = true;
-
             }
             if (!flag)
             {
@@ -166,8 +250,18 @@ public class SmallImage
         }
         if (flag)
         {
-            imgNew[id] = new Small(imgEmpty, id);
-            Service.gI().requestIcon(id);
+            if (imgNew[id] == null)
+            {
+                imgNew[id] = new Small(imgEmpty, id);
+                Service.gI().requestIcon(id);
+            }
+            else if (imgNew[id].img == null || imgNew[id].img.Equals(imgEmpty))
+            {
+                if (GameCanvas.gameTick % 120 == 0)
+                {
+                    Service.gI().requestIcon(id);
+                }
+            }
         }
     }
 
@@ -177,35 +271,31 @@ public class SmallImage
         {
             return;
         }
-        if (imgNew[id] == null || imgNew[id].img.Equals(imgEmpty))
+        checkImgNewSize(id);
+        if (id >= imgNew.Length)
         {
-           // Debug.LogError("Not image at : " + id);
-
+            return;
+        }
+        Small small = imgNew[id];
+        if (small == null || small.img == null || small.img.Equals(imgEmpty))
+        {
+            createImage(id);
+            small = imgNew[id];
         }
         if (imgbig == null)
         {
-            Small small = imgNew[id];
-            if (small == null)
-            {
-                createImage(id);
-            }
-            else
+            if (small != null && small.img != null && !small.img.Equals(imgEmpty))
             {
                 g.drawRegion(small, 0, 0, mGraphics.getImageWidth(small.img), mGraphics.getImageHeight(small.img), transform, x, y, anchor);
             }
         }
         else if (smallImg != null)
         {
-            if (id >= smallImg.Length || smallImg[id][1] >= 256 || smallImg[id][3] >= 256 || smallImg[id][2] >= 256 || smallImg[id][4] >= 256)
+            if (id >= smallImg.Length || smallImg[id] == null || smallImg[id][1] >= 256 || smallImg[id][3] >= 256 || smallImg[id][2] >= 256 || smallImg[id][4] >= 256)
             {
-                Small small2 = imgNew[id];
-                if (small2 == null)
+                if (small != null && small.img != null && !small.img.Equals(imgEmpty))
                 {
-                    createImage(id);
-                }
-                else
-                {
-                    small2.paint(g, transform, x, y, anchor);
+                    small.paint(g, transform, x, y, anchor);
                 }
             }
             else if (imgbig[smallImg[id][0]] != null)
@@ -215,28 +305,33 @@ public class SmallImage
         }
         else if (GameCanvas.currentScreen != GameScr.gI())
         {
-            Small small3 = imgNew[id];
-            if (small3 == null)
+            if (small != null && small.img != null && !small.img.Equals(imgEmpty))
             {
-                createImage(id);
-            }
-            else
-            {
-                small3.paint(g, transform, x, y, anchor);
+                small.paint(g, transform, x, y, anchor);
             }
         }
     }
 
     public static void drawSmallImage(mGraphics g, int id, int f, int x, int y, int w, int h, int transform, int anchor)
     {
+        if (id < 0)
+        {
+            return;
+        }
+        checkImgNewSize(id);
+        if (id >= imgNew.Length)
+        {
+            return;
+        }
+        Small small = imgNew[id];
+        if (small == null || small.img == null || small.img.Equals(imgEmpty))
+        {
+            createImage(id);
+            small = imgNew[id];
+        }
         if (imgbig == null)
         {
-            Small small = imgNew[id];
-            if (small == null)
-            {
-                createImage(id);
-            }
-            else
+            if (small != null && small.img != null && !small.img.Equals(imgEmpty))
             {
                 g.drawRegion(small.img, 0, f * w, w, h, transform, x, y, anchor);
             }
@@ -245,14 +340,9 @@ public class SmallImage
         {
             if (id >= smallImg.Length || smallImg[id] == null || smallImg[id][1] >= 256 || smallImg[id][3] >= 256 || smallImg[id][2] >= 256 || smallImg[id][4] >= 256)
             {
-                Small small2 = imgNew[id];
-                if (small2 == null)
+                if (small != null && small.img != null && !small.img.Equals(imgEmpty))
                 {
-                    createImage(id);
-                }
-                else
-                {
-                    small2.paint(g, transform, f, x, y, w, h, anchor);
+                    small.paint(g, transform, f, x, y, w, h, anchor);
                 }
             }
             else if (smallImg[id][0] != 4 && imgbig[smallImg[id][0]] != null)
@@ -261,27 +351,17 @@ public class SmallImage
             }
             else
             {
-                Small small3 = imgNew[id];
-                if (small3 == null)
+                if (small != null && small.img != null && !small.img.Equals(imgEmpty))
                 {
-                    createImage(id);
-                }
-                else
-                {
-                    small3.paint(g, transform, f, x, y, w, h, anchor);
+                    small.paint(g, transform, f, x, y, w, h, anchor);
                 }
             }
         }
         else if (GameCanvas.currentScreen != GameScr.gI())
         {
-            Small small4 = imgNew[id];
-            if (small4 == null)
+            if (small != null && small.img != null && !small.img.Equals(imgEmpty))
             {
-                createImage(id);
-            }
-            else
-            {
-                small4.paint(g, transform, f, x, y, w, h, anchor);
+                small.paint(g, transform, f, x, y, w, h, anchor);
             }
         }
     }

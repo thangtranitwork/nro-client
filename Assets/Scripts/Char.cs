@@ -2169,7 +2169,7 @@ public class Char : IMapObject
             }
             if (me && GameCanvas.isTouch)
             {
-                if (charFocus != null && charFocus.charID >= 0 && charFocus.cx > 100 && charFocus.cx < TileMap.pxw - 100 && isInEnterOnlinePoint() == null && isInEnterOfflinePoint() == null && !isAttacPlayerStatus() && TileMap.mapID != 51 && TileMap.mapID != 52 && GameCanvas.panel.vPlayerMenu.size() > 0 && GameScr.gI().popUpYesNo == null)
+                if (charFocus != null && charFocus.charID >= 0 && (charFocus == this || (charFocus.cx > 100 && charFocus.cx < TileMap.pxw - 100)) && isInEnterOnlinePoint() == null && isInEnterOfflinePoint() == null && !isAttacPlayerStatus() && TileMap.mapID != 51 && TileMap.mapID != 52 && GameCanvas.panel.vPlayerMenu.size() > 0 && GameScr.gI().popUpYesNo == null)
                 {
                     int num4 = Math.Abs(cx - charFocus.cx);
                     int num5 = Math.Abs(cy - charFocus.cy);
@@ -4914,6 +4914,10 @@ public class Char : IMapObject
         {
             body = 57;
         }
+        else if (cgender == 3)
+        {
+            body = 2153;
+        }
     }
 
     public void setDefaultLeg()
@@ -4929,6 +4933,10 @@ public class Char : IMapObject
         else if (cgender == 2)
         {
             leg = 58;
+        }
+        else if (cgender == 3)
+        {
+            leg = 2154;
         }
     }
 
@@ -8255,7 +8263,11 @@ public class Char : IMapObject
         {
             return "NM";
         }
-        return "XD";
+        if (cgender == 2)
+        {
+            return "XD";
+        }
+        return "V11";
     }
 
     public static void updatePetPean()
@@ -8284,6 +8296,8 @@ public class Char : IMapObject
             return "TĐ";
         if (cgender == 1)
             return "NM";
-        return "XD";
+        if (cgender == 2)
+            return "XD";
+        return "V11";
     }
 }

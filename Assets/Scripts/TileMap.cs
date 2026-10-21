@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
@@ -176,9 +176,9 @@ public class TileMap
 
     public static MyVector vObject = new MyVector();
 
-    public static int[] offlineId = new int[6] { 21, 22, 23, 39, 40, 41 };
+    public static int[] offlineId = new int[7] { 21, 22, 23, 39, 40, 41, 185 };
 
-    public static int[] highterId = new int[6] { 21, 22, 23, 24, 25, 26 };
+    public static int[] highterId = new int[7] { 21, 22, 23, 24, 25, 26, 185 };
 
     public static int[] toOfflineId = new int[3] { 0, 7, 14 };
 
@@ -718,6 +718,10 @@ public class TileMap
         }
         DataInputStream dataInputStream = null;
         dataInputStream = MyStream.readFile("/mymap/" + mapID);
+        if (dataInputStream == null)
+        {
+            throw new Exception("MyMap not found: " + mapID);
+        }
         tmw = (ushort)dataInputStream.read();
         tmh = (ushort)dataInputStream.read();
         maps = new int[dataInputStream.available()];

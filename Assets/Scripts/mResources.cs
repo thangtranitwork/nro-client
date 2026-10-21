@@ -229,8 +229,9 @@ public class mResources
         string.Empty
     };
 
-    public static string[] MENUGENDER = new string[3]
+    public static string[] MENUGENDER = new string[4]
     {
+        string.Empty,
         string.Empty,
         string.Empty,
         string.Empty
@@ -1004,8 +1005,14 @@ public class mResources
 
     public static string to_gain_1pow = string.Empty;
 
-    public static string[][] hairStyleName = new string[3][]
+    public static string[][] hairStyleName = new string[4][]
     {
+        new string[3]
+        {
+            string.Empty,
+            string.Empty,
+            string.Empty
+        },
         new string[3]
         {
             string.Empty,
