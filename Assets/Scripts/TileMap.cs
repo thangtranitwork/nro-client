@@ -180,7 +180,7 @@ public class TileMap
 
     public static int[] highterId = new int[7] { 21, 22, 23, 24, 25, 26, 185 };
 
-    public static int[] toOfflineId = new int[3] { 0, 7, 14 };
+    public static int[] toOfflineId = new int[4] { 0, 7, 14, 186 };
 
     public static int[][] tileType;
 

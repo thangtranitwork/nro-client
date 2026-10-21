@@ -5,7 +5,23 @@ using UnityEngine;
 public class TField : IActionListener
 {
     public bool canTelex = false;
-    public bool isFocus;
+    private bool _isFocus;
+    public bool isFocus
+    {
+        get { return _isFocus; }
+        set
+        {
+            _isFocus = value;
+            if (value)
+            {
+                currentTField = this;
+            }
+            else if (currentTField == this)
+            {
+                currentTField = null;
+            }
+        }
+    }
 
     public int x;
 

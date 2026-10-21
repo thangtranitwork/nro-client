@@ -315,23 +315,84 @@ public class Main : MonoBehaviour
         if (Event.current.type == EventType.KeyDown)
         {
             int num = 0;
-            if (Event.current.character != '\0' && Event.current.character >= ' ' && Event.current.character != 127)
+            bool isTyping = GameCanvas.isTyping();
+            if (isTyping)
             {
-                num = (int)Event.current.character;
+                if (Event.current.character != '\0' && Event.current.character >= ' ' && Event.current.character != 127)
+                {
+                    num = (int)Event.current.character;
+                }
+                else if (Event.current.character == '\b' || Event.current.character == 8)
+                {
+                    num = -8;
+                }
+                else if (Event.current.character == '\r' || Event.current.character == '\n')
+                {
+                    num = -5;
+                }
+                else if (Event.current.character == 127)
+                {
+                    num = 127;
+                }
+                else if (Event.current.keyCode != KeyCode.None)
+                {
+                    bool isCtrl = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+                    if (isCtrl)
+                    {
+                        num = MyKeyMap.map(Event.current.keyCode);
+                    }
+                    else
+                    {
+                        switch (Event.current.keyCode)
+                        {
+                            case KeyCode.Backspace:
+                                num = -8;
+                                break;
+                            case KeyCode.Return:
+                            case KeyCode.KeypadEnter:
+                                num = -5;
+                                break;
+                            case KeyCode.LeftArrow:
+                                num = -3;
+                                break;
+                            case KeyCode.RightArrow:
+                                num = -4;
+                                break;
+                            case KeyCode.UpArrow:
+                                num = -1;
+                                break;
+                            case KeyCode.DownArrow:
+                                num = -2;
+                                break;
+                            case KeyCode.Tab:
+                                num = -26;
+                                break;
+                            case KeyCode.Delete:
+                                num = 127;
+                                break;
+                            case KeyCode.Escape:
+                                num = -21;
+                                break;
+                        }
+                    }
+                }
             }
             else
             {
-                num = MyKeyMap.map(Event.current.keyCode);
-                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                if (Event.current.keyCode != KeyCode.None)
                 {
-                    switch (Event.current.keyCode)
+                    num = MyKeyMap.map(Event.current.keyCode);
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                     {
-                        case KeyCode.Alpha2:
-                            num = 64;
-                            break;
-                        case KeyCode.Minus:
-                            num = 95;
-                            break;
+                        switch (Event.current.keyCode)
+                        {
+                            case KeyCode.Alpha2:
+                                num = 64;
+                                break;
+                            case KeyCode.Minus:
+                                num = 95;
+                                break;
+                        }
                     }
                 }
             }

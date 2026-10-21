@@ -321,11 +321,17 @@ public class Panel : IActionListener, IChatable
         173, 207, 194, 29
     };
 
-    public static int[][] mapId = new int[4][] { mapIdTraidat, mapIdNamek, mapIdSaya, mapIdTraidat };
+    public static int[] mapIdVuTru11 = new int[2] { 185, 186 };
 
-    public static int[][] mapX = new int[4][] { mapXTraidat, mapXNamek, mapXSaya, mapXTraidat };
+    public static int[] mapXVuTru11 = new int[2] { 80, 160 };
 
-    public static int[][] mapY = new int[4][] { mapYTraidat, mapYNamek, mapYSaya, mapYTraidat };
+    public static int[] mapYVuTru11 = new int[2] { 100, 100 };
+
+    public static int[][] mapId = new int[4][] { mapIdTraidat, mapIdNamek, mapIdSaya, mapIdVuTru11 };
+
+    public static int[][] mapX = new int[4][] { mapXTraidat, mapXNamek, mapXSaya, mapXVuTru11 };
+
+    public static int[][] mapY = new int[4][] { mapYTraidat, mapYNamek, mapYSaya, mapYVuTru11 };
 
     public Item currItem;
 

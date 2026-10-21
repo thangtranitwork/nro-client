@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.HSNR;
+using Assets.Scripts.HSNR;
 using Assets.Scripts.VoiceChat;
 using System;
 using UnityEngine;
@@ -369,9 +369,6 @@ namespace Assets.Scripts.Assembly_CSharp.HSNR
                 case 'k':
                     AutoMap.instance.RightWay();
                     break;
-                case 'a':
-                    AutoSkill.getInstance().perform(1, null);
-                    break;
                 case 'b':
                     Service.gI().friend(0, -1);
                     break;
@@ -385,9 +382,6 @@ namespace Assets.Scripts.Assembly_CSharp.HSNR
                             break;
                         }
                     }
-                    break;
-                case 'd':
-                    AutoSkill.FreezeSelectedSkill();
                     break;
                 case 'e':
                     isAutoRevive = !isAutoRevive;
@@ -429,10 +423,6 @@ namespace Assets.Scripts.Assembly_CSharp.HSNR
                     break;
                 case 't':
                     AutoTrainVIP.ShowMenu();
-                    break;
-                case 's':
-                    autoFocus = !autoFocus;
-                    GameScr.info1.addInfo("Auto Focus Boss\n" + (autoFocus ? "[ON]" : "[OFF]"), 0);
                     break;
             }
         }

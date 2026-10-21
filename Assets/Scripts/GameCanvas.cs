@@ -1890,6 +1890,23 @@ public class GameCanvas : IActionListener
         //  Debug.LogError("key2: " + keyCode);
     }
 
+    public static bool isTyping()
+    {
+        if (ChatTextField.gI() != null && ChatTextField.gI().isShow)
+        {
+            return true;
+        }
+        if (TField.currentTField != null && TField.currentTField.isFocus)
+        {
+            return true;
+        }
+        if (currentDialog != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public void mapKeyPress(int keyCode)
     {
         if (currentDialog != null)
@@ -1901,6 +1918,82 @@ public class GameCanvas : IActionListener
         currentScreen.keyPress(keyCode);
         switch (keyCode)
         {
+            case 'w':
+            case 'W':
+            case 119:
+            case 87:
+                if (!isTyping())
+                {
+                    keyAsciiPress = 0;
+                    if ((currentScreen is GameScr || currentScreen is CrackBallScr) && Char.myCharz().isAttack)
+                    {
+                        clearKeyHold();
+                        clearKeyPressed();
+                    }
+                    else
+                    {
+                        keyHold[21] = true;
+                        keyPressed[21] = true;
+                    }
+                }
+                break;
+            case 's':
+            case 'S':
+            case 115:
+            case 83:
+                if (!isTyping())
+                {
+                    keyAsciiPress = 0;
+                    if ((currentScreen is GameScr || currentScreen is CrackBallScr) && Char.myCharz().isAttack)
+                    {
+                        clearKeyHold();
+                        clearKeyPressed();
+                    }
+                    else
+                    {
+                        keyHold[22] = true;
+                        keyPressed[22] = true;
+                    }
+                }
+                break;
+            case 'a':
+            case 'A':
+            case 97:
+            case 65:
+                if (!isTyping())
+                {
+                    keyAsciiPress = 0;
+                    if ((currentScreen is GameScr || currentScreen is CrackBallScr) && Char.myCharz().isAttack)
+                    {
+                        clearKeyHold();
+                        clearKeyPressed();
+                    }
+                    else
+                    {
+                        keyHold[23] = true;
+                        keyPressed[23] = true;
+                    }
+                }
+                break;
+            case 'd':
+            case 'D':
+            case 100:
+            case 68:
+                if (!isTyping())
+                {
+                    keyAsciiPress = 0;
+                    if ((currentScreen is GameScr || currentScreen is CrackBallScr) && Char.myCharz().isAttack)
+                    {
+                        clearKeyHold();
+                        clearKeyPressed();
+                    }
+                    else
+                    {
+                        keyHold[24] = true;
+                        keyPressed[24] = true;
+                    }
+                }
+                break;
             case -38:
             case -1:
                 if ((currentScreen is GameScr || currentScreen is CrackBallScr) && Char.myCharz().isAttack)
@@ -2068,17 +2161,33 @@ public class GameCanvas : IActionListener
     {
         switch (keyCode)
         {
+            case 'w':
+            case 'W':
+            case 119:
+            case 87:
             case -38:
             case -1:
                 keyHold[21] = false;
                 break;
+            case 's':
+            case 'S':
+            case 115:
+            case 83:
             case -39:
             case -2:
                 keyHold[22] = false;
                 break;
+            case 'a':
+            case 'A':
+            case 97:
+            case 65:
             case -3:
                 keyHold[23] = false;
                 break;
+            case 'd':
+            case 'D':
+            case 100:
+            case 68:
             case -4:
                 keyHold[24] = false;
                 break;

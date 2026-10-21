@@ -160,7 +160,28 @@ public class ChatTextField : IActionListener
     {
         if (isShow)
         {
-            tfChat.keyPressed(keyCode);
+            if (keyCode == 8 || keyCode == -8)
+            {
+                if (tfChat.getText().Equals(string.Empty))
+                {
+                    isShow = false;
+                    tfChat.isFocus = false;
+                    if (parentScreen != null)
+                    {
+                        parentScreen.onCancelChat();
+                    }
+                }
+                else
+                {
+                    tfChat.clear();
+                }
+                GameCanvas.keyPressed[14] = false;
+                GameCanvas.keyHold[14] = false;
+            }
+            else
+            {
+                tfChat.keyPressed(keyCode);
+            }
         }
         if (tfChat.getText().Equals(string.Empty))
         {
@@ -304,6 +325,7 @@ public class ChatTextField : IActionListener
     public void close()
     {
         tfChat.setText(string.Empty);
+        tfChat.isFocus = false;
         isShow = false;
     }
 
@@ -338,6 +360,8 @@ public class ChatTextField : IActionListener
                         lastChatTime = num;
                         parentScreen.onChatFromMe(tfChat.getText(), to);
                         tfChat.setText(string.Empty);
+                        tfChat.isFocus = false;
+                        isShow = false;
                         right.caption = mResources.CLOSE;
                         tfChat.clearKb();
                     }
@@ -347,6 +371,7 @@ public class ChatTextField : IActionListener
                 Cout.LogError("perform chat 8001");
                 if (tfChat.getText().Equals(string.Empty))
                 {
+                    tfChat.isFocus = false;
                     isShow = false;
                     parentScreen.onCancelChat();
                 }

@@ -2571,6 +2571,11 @@ public class GameScr : mScreen, IChatable
 
     public override void keyPress(int keyCode)
     {
+        if (ChatTextField.gI().isShow)
+        {
+            ChatTextField.gI().keyPressed(keyCode);
+            return;
+        }
         base.keyPress(keyCode);
     }
 
@@ -2670,11 +2675,7 @@ public class GameScr : mScreen, IChatable
         GameCanvas.debug("F8", 0);
         if (ChatTextField.gI().isShow)
         {
-            if (GameCanvas.keyAsciiPress != 0)
-            {
-                ChatTextField.gI().keyPressed(GameCanvas.keyAsciiPress);
-                GameCanvas.keyAsciiPress = 0;
-            }
+            GameCanvas.keyAsciiPress = 0;
             return;
         }
         if (isLockKey)
