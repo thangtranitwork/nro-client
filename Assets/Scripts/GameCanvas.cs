@@ -1920,8 +1920,6 @@ public class GameCanvas : IActionListener
         {
             case 'w':
             case 'W':
-            case 119:
-            case 87:
                 if (!isTyping())
                 {
                     keyAsciiPress = 0;
@@ -1939,8 +1937,6 @@ public class GameCanvas : IActionListener
                 break;
             case 's':
             case 'S':
-            case 115:
-            case 83:
                 if (!isTyping())
                 {
                     keyAsciiPress = 0;
@@ -1958,8 +1954,6 @@ public class GameCanvas : IActionListener
                 break;
             case 'a':
             case 'A':
-            case 97:
-            case 65:
                 if (!isTyping())
                 {
                     keyAsciiPress = 0;
@@ -1977,8 +1971,6 @@ public class GameCanvas : IActionListener
                 break;
             case 'd':
             case 'D':
-            case 100:
-            case 68:
                 if (!isTyping())
                 {
                     keyAsciiPress = 0;
@@ -2163,31 +2155,23 @@ public class GameCanvas : IActionListener
         {
             case 'w':
             case 'W':
-            case 119:
-            case 87:
             case -38:
             case -1:
                 keyHold[21] = false;
                 break;
             case 's':
             case 'S':
-            case 115:
-            case 83:
             case -39:
             case -2:
                 keyHold[22] = false;
                 break;
             case 'a':
             case 'A':
-            case 97:
-            case 65:
             case -3:
                 keyHold[23] = false;
                 break;
             case 'd':
             case 'D':
-            case 100:
-            case 68:
             case -4:
                 keyHold[24] = false;
                 break;
